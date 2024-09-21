@@ -4,7 +4,7 @@ published: 2024-09-17
 description: ''
 image: './cognitive01.jpg'
 tags: []
-category: ''
+category: '萤窗雪案'
 draft: false 
 lang: ''
 

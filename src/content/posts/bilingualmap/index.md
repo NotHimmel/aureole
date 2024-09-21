@@ -196,8 +196,6 @@ Java中每个对象都有两个比较的函数hashCode()和equals(),在hashmap�
 
 
 ---
+# Reference
 [Hashing](https://samwho.dev/hashing/)
-111111
 
-
-![大脑](/images/02-C++vsJava/C++-vs-Java.jpeg)
