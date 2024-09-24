@@ -21,6 +21,7 @@ lang: ''
 09-21 Lec3(Testing) Lec4(Recursion) Lec5(LinkedList)  
 09-22 Lab2(Debugging) Lec6(双向链表) Lec7(线性表扩容) Lab3(条件断点，随机性测试)
 09-23 Pro1.1(Linked List Deque)
+09-24 Pro1.2(ArrayDeque, MaxArrayDeque)
 
 # 学习心得
 按照课程计划的周来记录  
@@ -108,7 +109,7 @@ Lec7 主要讨论读写效率更高的线性表，以及如何扩容。
 Lab3 主要熟练test case怎么写，随机性测试，条件断点以及crash断点的用法，说是会在之后的lab里用到。  
 
 ## Pro1
-实现Deque
+实现这个双端队列比我想象的要困难，原理感觉很清晰，写起来各种条件、限制，这时候真的需要一个好的case来提高验证效率。
 
 
 
