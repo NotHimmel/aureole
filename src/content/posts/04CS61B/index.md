@@ -3,7 +3,7 @@ title: CS61B
 published: 2024-09-19
 description: ''
 image: ''
-tags: []
+tags: [砍柴]
 category: '驽马十驾'
 draft: false 
 lang: ''
@@ -15,16 +15,19 @@ lang: ''
 资料：Reading基本上是Video的精华，如果看Reading有不理解的再去看对应的视频。  
 作业批改（Autograder）：21版本 MB7ZPY  
 :::
-# 时间记录
+# 时间记录(目标10.31完成)
 09-19 安装IntelliJ（激活）Lec1  
 09-20 Lec2 HW0（Java基础） Pro0（2048）  
 09-21 Lec3(Testing) Lec4(Recursion) Lec5(LinkedList)  
 09-22 Lab2(Debugging) Lec6(双向链表) Lec7(线性表扩容) Lab3(条件断点，随机性测试)
 09-23 Pro1.1(Linked List Deque)
 09-24 Pro1.2(ArrayDeque, MaxArrayDeque)
+09-25 Lec8(接口的实现) Lec9(类的继承) Lec10(比较器接口)
+09-26 复习回顾Slides和Reading Lec11(Iterator,Equals,toString) Lab4(Git使用，游离态)
+09-28 Lec14(DisjointSets 并查集)
 
 # 学习心得
-按照课程计划的周来记录  
+# 第一阶段 Java基础  (8Days)
 ## 1week
 Lec1,2介绍了main函数和一些基本的关键字、库用法。static关键字是区分是属于类还是实例的关键字。  
 Josh还说出了我上学时讨厌Java的原因，看起来非常冗长，定义一个函数public static void main(String[] args)看起来比C++都要长，但他说长有长的坏处，在大型项目中会有优势，这让我开始静下心来敲每一行代码，慢慢熟悉Java的做事方法。  
@@ -107,11 +110,90 @@ Lec5这节课开始接触数据结构了，实现了一个简单的linkedlist，
 Lec6 带有哨兵节点和last节点的单链表在删除尾部元素时的效率较低，自然而然地引出了双向链表，有两种实现形式。一种是前后哨兵节点的双向链表，另一种是带哨兵节点的循环链表。从array和class的使用对比中，引出了反射。  
 Lec7 主要讨论读写效率更高的线性表，以及如何扩容。  
 Lab3 主要熟练test case怎么写，随机性测试，条件断点以及crash断点的用法，说是会在之后的lab里用到。  
+Lec8 接口
+Lec9 继承
+Lec10 C++的<可以重载，Java只能通过继承一个比较的接口来实现
+Lec11 实现了一个带Iterator的ArraySet，又重载了equas和toString，相当于是==和cout
 
 ## Pro1
-实现这个双端队列比我想象的要困难，原理感觉很清晰，写起来各种条件、限制，这时候真的需要一个好的case来提高验证效率。
+实现这个双端队列比我想象的要困难，原理感觉很清晰，写起来各种条件、限制，这时候真的需要一个好的case来提高验证效率。实现了Deque之后不想做后半部分了，Java的语言基础部分就算到这里了，接下来的数据结构部分才是重头戏。
 
+---
 
+# 第二部分 数据结构   
+09-28 并查集
+UnionFind，用来做连通性检查的数据结构。主要API是Find和Union（好像是废话），依次进化三次的算法：  
+- 第一种纯数组记录，每个连通的节点都是同一个set的值，优点是Find非常快，O1，缺点是Union非常慢，需要一个个遍历，赋值；
+- 第二种也是数组记录，但记录的是父节点的值，Find和Union的速度都取决于树的高度；
+- 第三者加权Quick Union，除了第一个数组记录父节点，还有一个数组记录树的节点数，Union的时候，小树改变根节点到大树上，这样让树更加平衡，实现O logn的复杂度；
+- 最后一种带路径压缩，查询的时候顺手把根节点直接指向root节点，这样不用一次次爬树到叶子节点上，适合操作多的时候能接近O1的常数时间复杂度。  
+Leetcode547(省份) -> 200(岛屿)
+```cpp
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        UnionFind* uf = new UnionFind(n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (isConnected[i][j] == 1) {
+                    uf->Union(i, j);
+                }
+            }
+        }
+        return uf->GetMerged();
+    }
+
+    class UnionFind {
+    public:
+        UnionFind(int n) {
+            merged = n;
+            parents = new int[n];
+            size = new int[n];
+            for (int i = 0; i < n; i++) {
+                parents[i] = i;
+                size[i] = 1;
+            }
+        }
+        int GetMerged() {
+            return merged;
+        }
+        
+        int Find(int i) {
+            /*int r = i;
+            while (parents[r] != r) {
+                r = parents[r];
+            }
+            return r;*/
+            if (parents[i] != i) {
+                parents[i] = Find(parents[i]);
+            }
+            return parents[i];
+        }
+        void Union(int p, int q) {
+            int lhs = Find(p);
+            int rhs = Find(q);
+            if (lhs != rhs) {
+                merged--;
+                if (lhs < rhs) {
+                    parents[lhs] = rhs;
+                    size[rhs] += size[lhs];
+                }
+                else {
+                    parents[rhs] = lhs;
+                    size[lhs] += size[rhs];
+                }
+            }
+        }
+
+        private:
+            int* parents;
+            int* size;
+            int merged;
+    };
+
+};
+```
 
 ------
 期待[gitlet](https://cs-plan.com/CS%E5%9F%BA%E7%A1%80/%E8%AF%BE%E7%A8%8B%E6%8E%A8%E8%8D%90/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/UCBCS61B/#gitlet)

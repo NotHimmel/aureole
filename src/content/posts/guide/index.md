@@ -140,3 +140,18 @@ published: 2023-10-19
 ## Bilibili
 
 <iframe width="100%" height="468" src="//player.bilibili.com/player.html?bvid=BV1fK4y1s7Qf&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<leaflet-map
+  data-latitude={32.795595}
+  data-longitude={-117.259191}
+  data-zoom={2}
+  data-container="my-map"
+  data-tiles="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  data-attribution="© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+  data-containerstyle="width: 100%; height: 400px"
+  data-markers={JSON.stringify([
+    { latitude: 42.65, longitude: 9.15, popup: "这里是拿破仑的故乡" },
+    { latitude: 48.8566, longitude: 2.3522, popup: "这里是巴黎" },
+    { latitude: 40.7128, longitude: -74.0060, popup: "这里是纽约" },
+  ])}
+/>

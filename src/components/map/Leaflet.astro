@@ -1,0 +1,72 @@
+---
+export interface Props {
+  latitude: number
+  longitude: number
+  zoom: number
+  /** the DOM ID of a <div> element */
+  container: string
+  /** https://leafletjs.com/reference.html#tilelayer */
+  tileLayer: string
+  /** Most tile servers require attribution. */
+  attribution: string
+  containerstyle?: string
+  markers?: Array<{ latitude: number; longitude: number; popup: string }>
+}
+
+const {
+  latitude,
+  longitude,
+  zoom,
+  container,
+  tileLayer,
+  attribution,
+  containerstyle = 'height: 61.8vh',
+} = Astro.props
+---
+
+<leaflet-map
+  data-latitude={latitude}
+  data-longitude={longitude}
+  data-zoom={zoom}
+  data-container={container}
+  data-tiles={tileLayer}
+  data-attribution={attribution}
+  data-containerstyle={containerstyle}
+  data-markers={JSON.stringify([
+    { latitude: 42.65, longitude: 9.15, popup: "这里是拿破仑的故乡" },
+    { latitude: 48.8566, longitude: 2.3522, popup: "这里是巴黎" },
+    { latitude: 40.7128, longitude: -74.0060, popup: "这里是纽约" }
+  ])}
+>
+<div id={container} style={containerstyle}></div>
+<script>
+  import "leaflet/dist/leaflet"
+  import "leaflet/dist/leaflet.css"
+  
+  class LeafletMap extends HTMLElement {
+    constructor() {
+      super()
+
+      const latlng = [Number(this.dataset.latitude), Number(this.dataset.longitude)]
+      const markers = JSON.parse(this.dataset.markers || '[]');
+
+      var map = L.map(this.dataset.container).setView(latlng, Number(this.dataset.zoom))
+      L.tileLayer(
+        this.dataset.tiles,
+        {attribution: this.dataset.attribution}
+        ).addTo(map)
+
+        if (Array.isArray(markers)) {
+        markers.forEach(marker => {
+            const markerLatLng = [marker.latitude, marker.longitude];
+            const markerInstance = L.marker(markerLatLng).addTo(map);
+            markerInstance.bindPopup(marker.popup);
+        });
+        } else {
+        console.error('Markers is not an array:', markers);
+        }
+    }
+  }
+
+  window.customElements.define("leaflet-map", LeafletMap);
+</script>
