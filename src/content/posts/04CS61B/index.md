@@ -25,6 +25,7 @@ lang: ''
 09-25 Lec8(接口的实现) Lec9(类的继承) Lec10(比较器接口)
 09-26 复习回顾Slides和Reading Lec11(Iterator,Equals,toString) Lab4(Git使用，游离态)
 09-28 Lec14(DisjointSets 并查集)
+10-06 Lec16(BST 二叉平衡树)
 
 # 学习心得
 # 第一阶段 Java基础  (8Days)
