@@ -1,11 +1,11 @@
 ---
-title: 可塑的我-记录
+title: 《可塑的我》-记录
 published: 2024-10-03
 description: '担水'
 image: ''
 tags: [担水]
 category: '萤窗雪案'
-draft: true 
+draft: false 
 lang: ''
 ---
 

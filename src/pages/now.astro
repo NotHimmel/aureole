@@ -20,6 +20,8 @@ const mapProps = {
   attribution: '© OpenStreetMap contributors',
   markers: [],
 }
+//<div id="map-container" style="height: 500px;"></div>
+//<LeafletMap {...mapProps} />
 ---
 <MainGridLayout title={i18n(I18nKey.now)} description={i18n(I18nKey.now)}>
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
@@ -31,5 +33,3 @@ const mapProps = {
     </div>
 </MainGridLayout>
 
-<div id="map-container" style="height: 500px;"></div>
-<LeafletMap {...mapProps} />
